@@ -67,34 +67,11 @@ export const updateCategory = async(req: Request, res: Response): Promise<any> =
     try {
         const {id} = req.params;
 
-        const parse = categorychema.safeParse({
-            name: req.body.name,
-            subCategories: req.body.subCategories
-        })
+        const body = categorychema.parse(req.body)
 
-        if (!parse.success) {
-            const errMessages = parse.error.issues.map((err) => err.message)
-
-            return res.status(400).json({
-                message: 'Invalid request',
-                details: errMessages,
-                status: 'failed'
-            })
-        }
-
-        const oldCategory = await Category.findById(id)
-
-        if (!oldCategory) {
-            return res.status(404).json({
-                success: false,
-                message: 'Category not foud',
-                data: null
-            })
-        }
-
-        await Category.findByIdAndUpdate(oldCategory._id, {
-            name: parse.data.name,
-            subCategories: parse.data.subCategories
+        await Category.findByIdAndUpdate(id, {
+            name: body.name,
+            subCategories: body.subCategories
         })
 
         const updateCategory = await Category.findById(id)
