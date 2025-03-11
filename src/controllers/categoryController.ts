@@ -63,7 +63,7 @@ export const createCategory = async(req: Request, res: Response): Promise<any> =
     }
 }
 
-export const putCategory = async(req: Request, res: Response): Promise<any> => {
+export const updateCategory = async(req: Request, res: Response): Promise<any> => {
     try {
         const {id} = req.params;
 
@@ -143,7 +143,7 @@ export const deleteCategory = async(req: Request, res: Response): Promise<any> =
         
         return res.status(500).json({
             success: false,
-            message: 'failed to update data',
+            message: 'failed to delete data',
             data: null
         })
     }
