@@ -16,7 +16,11 @@ const productSchema = new mongoose.Schema({
     subCategory: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'SubCategory'
-    }
+    },
+    variants: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Variant'
+    }]
 })
 
 export default mongoose.model('Product', productSchema)

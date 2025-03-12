@@ -1,5 +1,7 @@
 import {z} from 'zod'
 
+export const allowedFileTypes = ['image/png', 'image/jpg', 'image/jpeg']
+
 export const categorychema = z.object({
     name: z.string().min(3),
     subCategories: z.array(z.string().min(5)).default([])
@@ -9,4 +11,19 @@ export const subCategorySchema = z.object({
     name: z.string().min(5),
     category: z.string().min(5),
     product: z.array(z.string().min(5)).min(1).optional()
+}).strict()
+
+export const variationSchema = z.object({
+    productId: z.string().min(5),
+    size: z.string().min(1, "Size is required"),
+    color: z.string().min(1, "Color is required"),
+    stock: z.number().min(0, "Stock must be at least 0"),
+}).strict()
+
+export const productSchema = z.object({
+    name: z.string().min(3, "Product name must be at least 3 characters"),
+    price: z.number().min(0, "Price must be at least 0"),
+    description: z.string().optional(),
+    variations: z.array(variationSchema).min(1, "At least one variation is required"),
+    images: z.array(z.string().url("Invalid image URL")).optional(),
 }).strict()
