@@ -4,7 +4,10 @@ import Category from "../models/Category";
 
 export const getCategory = async(req: Request, res: Response): Promise<any> => {
     try {
-        const data = await Category.find()
+        const data = await Category.find().populate({
+            path: 'subCategories',
+            select: 'name -_id'
+        })
 
         return res.status(200).json({
             success: true,

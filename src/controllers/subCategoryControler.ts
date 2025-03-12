@@ -7,7 +7,10 @@ type SubCategoryData = z.infer<typeof subCategorySchema>;
 
 export const getSubCategory = async(req: Request, res: Response): Promise<any> => {
     try {
-        const subCategory = await SubCategory.find()
+        const subCategory = await SubCategory.find().populate({
+            path: 'category',
+            select: 'name -_id'
+        })
 
         return res.status(200).json({
             success: true,
@@ -79,6 +82,30 @@ export const updateSubCategory = async(req: Request, res: Response): Promise<any
         return res.status(500).json({
             success: false,
             message: 'failed update data',
+            data: null
+        })
+    }
+}
+
+const deleteSubCategory = async(req: Request, res: Response): Promise<any> => {
+    try {
+        const {id} = req.params;
+
+        const deleteSubCategory = await SubCategory.findById(id)
+
+        await SubCategory.findByIdAndDelete(id)
+
+        return res.status(200).json({
+            succes: true,
+            message: 'Success delete data',
+            data: deleteSubCategory
+        })
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(500).json({
+            success: false,
+            message: 'failed delete data',
             data: null
         })
     }
