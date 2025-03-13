@@ -22,7 +22,7 @@ export const getVariants = async(req: Request, res: Response): Promise<any> => {
     }
 }
 
-export const createProduct = async(req: Request, res: Response): Promise<any> => {
+export const createVariant = async(req: Request, res: Response): Promise<any> => {
     try {
         const parse = variationSchema.safeParse(req.body)
 
