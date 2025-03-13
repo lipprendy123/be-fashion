@@ -14,10 +14,10 @@ export const subCategorySchema = z.object({
 }).strict()
 
 export const variationSchema = z.object({
-    productId: z.string().min(5),
-    size: z.string().min(1, "Size is required"),
-    color: z.string().min(1, "Color is required"),
-    stock: z.number().min(0, "Stock must be at least 0"),
+    productId: z.string().min(2).optional(),
+    size: z.string().min(1, "Size is required").optional(),
+    color: z.string().min(1, "Color is required").optional(),
+    stock: z.number().min(0, "Stock must be at least 0").optional(),
 }).strict()
 
 export const productSchema = z.object({
