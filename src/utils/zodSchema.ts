@@ -24,6 +24,6 @@ export const productSchema = z.object({
     name: z.string().min(3, "Product name must be at least 3 characters"),
     price: z.number().min(0, "Price must be at least 0"),
     description: z.string().optional(),
-    variations: z.array(variationSchema).min(1, "At least one variation is required"),
-    images: z.array(z.string().url("Invalid image URL")).optional(),
+    images: z.array(z.string()),
+    variant: z.array(variationSchema).min(1, "At least one variation is required"),
 }).strict()

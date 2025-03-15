@@ -13,6 +13,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    images: [{
+        type: String,
+        required: true
+    }],
     subCategory: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'SubCategory'

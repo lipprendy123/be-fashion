@@ -2,7 +2,7 @@ import type { Request } from "express";
 import multer, { type FileFilterCallback } from "multer";
 import { allowedFileTypes } from "./zodSchema";
 
-export const thumbnailStorage = (path = "public/uploads/thumbnails") =>
+export const productStorage = (path = "public/uploads/products") =>
 	multer.diskStorage({
 		destination: (req, file, cb) => {
 			cb(null, path);
