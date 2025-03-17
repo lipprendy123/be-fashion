@@ -4,7 +4,13 @@ import { variationSchema } from "../utils/zodSchema";
 
 export const getVariants = async(req: Request, res: Response): Promise<any> => {
     try {
-        const variants = await Variant.find()
+        const variants = await Variant.find().populate({
+            path: 'productId',
+            select: 'name price description -_id'
+        })
+
+        console.log(variants);
+        
 
         return res.status(200).json({
             success: true,
