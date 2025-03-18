@@ -27,3 +27,10 @@ export const productSchema = z.object({
     images: z.array(z.string()),
     variants: z.array(z.string()).min(1, 'At least one variant is required'),
 }).strict()
+
+export const authSchema = z.object({
+    name: z.string().min(5),
+    email: z.string().email(),
+    password: z.string().min(5),
+    role: z.enum(['admin', 'customer'])
+})
