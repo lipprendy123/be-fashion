@@ -33,4 +33,10 @@ export const authSchema = z.object({
     email: z.string().email(),
     password: z.string().min(5),
     role: z.enum(['admin', 'customer'])
-})
+}).strict()
+
+export const cartSchema = z.object({
+    userId: z.string().length(24, 'Invalid userId format'),
+    productId: z.string().length(24, 'Invalid productId format'),
+    qty: z.number().min(1, 'Quantity must be at least 1').default(1),
+}).strict()
