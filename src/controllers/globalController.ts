@@ -45,8 +45,20 @@ export const getSubCategories = async(req: Request, res: Response): Promise<any>
 
 export const getProducts = async(req: Request, res: Response): Promise<any> => {
     try {
-        const products = await Product.find
+        const products = await Product.find().select('name price images -_id')
+
+        return res.status(200).json({
+            success: true,
+            message: 'Get data categories success',
+            data: products
+        })
     } catch (error) {
+        console.log(error);
         
+        return res.status(500).json({
+            success: false,
+            message: 'Get data failed',
+            data: null
+        })
     }
 }

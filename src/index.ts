@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import adminRoutes from './routes/adminRoute/index'
 import connectDB from './utils/db';
 import authRoutes from './routes/authRoutes';
+import customerRoutes from './routes/customerRoute';
 
 const app = express();
 const port = 3000;
@@ -16,6 +17,7 @@ app.get('/', (req: Request, res: Response) => {
 
 // Routes api
 app.use('/api/admin', adminRoutes)
+app.use('/api/customer', customerRoutes)
 app.use('/api', authRoutes)
 
 app.listen(port, () => {
