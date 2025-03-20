@@ -25,7 +25,10 @@ export const getCategories = async(req: Request, res: Response): Promise<any> =>
 
 export const getSubCategories = async(req: Request, res: Response): Promise<any> => {
     try {
-        const subCategories = await SubCategory.find().select('name')
+        const subCategories = await SubCategory.find().populate({
+            path: 'products',
+            select: 'images name price -_id'
+        })
 
         return res.status(200).json({
             success: true,
@@ -51,6 +54,31 @@ export const getProducts = async(req: Request, res: Response): Promise<any> => {
             success: true,
             message: 'Get data categories success',
             data: products
+        })
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(500).json({
+            success: false,
+            message: 'Get data failed',
+            data: null
+        })
+    }
+}
+
+export const getDetailProduct = async(req: Request, res: Response): Promise<any> => {
+    try {
+        const {id} = req.params;
+
+        const detailProduct = await Product.findById(id).select('images name description price -_id').populate({
+            path: 'variant',
+            select: 'size color -_id'
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: 'Success get detail product',
+            data: detailProduct
         })
     } catch (error) {
         console.log(error);
