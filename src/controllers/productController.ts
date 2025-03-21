@@ -3,19 +3,39 @@ import Product from "../models/Product";
 import { productSchema } from "../utils/zodSchema";
 import path from 'path'
 import fs from "fs";
+import redisClient from '../utils/redis'
 
 export const getProducts = async (
   req: Request,
   res: Response
 ): Promise<any> => {
   try {
-    const data = await Product.find().populate({
-        path: 'variants',
-        select: 'size color stock -_id'
-    });
-    console.log("Product with populated variant:", data);
+    const cacheKey = "data";
 
-    return res.status(200).json({
+    // Coba Ambil Data dari Redis
+    const cachedData = await redisClient.get(cacheKey);
+    if (cachedData) {
+      console.log("Cache hit!🔥");
+      return res.json(JSON.parse(cachedData));
+    }
+
+    console.log("Cache miss 😭");
+
+    // Ambil Data dari Database
+    const data = await Product.find().populate({
+      path: "variants",
+      select: "size color stock -_id",
+    });
+
+    // Coba Simpan ke Redis dan Tambahkan Log Jika Gagal
+    try {
+      await redisClient.setEx(cacheKey, 60, JSON.stringify(data));
+      console.log("✅ Data berhasil disimpan ke Redis!");
+    } catch (redisError) {
+      console.error("❌ Gagal menyimpan data ke Redis:", redisError);
+    }
+
+    return res.json({
       success: true,
       message: "get data success",
       total: data.length,
@@ -31,6 +51,8 @@ export const getProducts = async (
     });
   }
 };
+
+
 
 export const getDetailProduct = async (
   req: Request,

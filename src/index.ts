@@ -17,7 +17,7 @@ app.get('/', (req: Request, res: Response) => {
 
 // Routes api
 app.use('/api/admin', adminRoutes)
-app.use('/api/customer', customerRoutes)
+app.use('/api/customers', customerRoutes)
 app.use('/api', authRoutes)
 
 app.listen(port, () => {

@@ -5,7 +5,7 @@ import { addToCart } from '../../controllers/cartController'
 const globalRoutes = express.Router()
 
 globalRoutes.get('/category', getCategories)
-globalRoutes.get('/categories', getSubCategories)
+globalRoutes.get('/sub-categories', getSubCategories)
 globalRoutes.get('/products', getProducts)
 globalRoutes.post('/add-to-cart', addToCart)
 
